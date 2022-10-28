@@ -34,7 +34,7 @@ class Recipe:
 
                 self.portions = int(recipe["portions"])
                 self.category = recipe["category"]
-                [int(x) for x in recipe["ingredients"] if x.isnumeric()]    # TODO
+                #  [int(x) for x in recipe["ingredients"] if x.isnumeric()]    # TODO
                 self.ingredients = recipe["ingredients"]
                 self.instructions = recipe["instructions"]
 
@@ -52,9 +52,9 @@ class Recipe:
         data = {
             name: "Pfannkuchen",
             base_portions: 4,
-            category: "Süsspeisse",
+            category: "Suesspeisse",
             ingredients: [ ("Eier", 4), ("Mehl", 150, "g"), ("Milch", 100, "ml") ],
-            instructions: "Ruehr alles zusammen und brate alles in der Pfanne ordentlich an"
+            instructions: "Ruehr alles zusammen und brate alles in der Pfanne ordentlich an :D"
             }
         """
         print("Recipe with name \"{}\" not found in stored recipes".format(self.name))
@@ -87,38 +87,34 @@ class Recipe:
                     print("Input not viable, please use only alphabet letters (a-z).")
                     continue
                 else:
-                    ui_portion = input("Specify portion amount comma-separated if weight e.g. \"400,g\" or \"4\"")
+                    ui_quantities = input("Specify quantity amount comma-separated if weight e.g. \"400,g\" or \"4\"")
 
-                    if "," in ui_portion:
-                        ui_portion = [x.strip() for x in ui_portion.split(",")]
+                    if "," in ui_quantities:
+                        ui_quantities = [x.strip() for x in ui_quantities.split(",")]
 
-                        if len(ui_portion) > 2:
+                        if len(ui_quantities) > 2:
                             print("Only 2 comma separated values allowed. Please try again.")
                             continue
-                        if not (ui_portion[0].isnumeric() and ui_portion[1].isalpha()):
+                        if not (ui_quantities[0].isnumeric() and ui_quantities[1].isalpha()):
                             print("Input not viable, please use only alphanumeric values (a-z, 0-9).")
                             continue
                     else:
-                        if not ui_portion.isalnum():
+                        if not ui_quantities.isalnum():
                             print("Input not viable, please use only alphanumeric values (a-z, 0-9).")
                             continue
                         else:
-                            ui_portion = ui_portion.strip()
+                            ui_quantities = ui_quantities.strip()
 
                     res_ingredients = [ui_ingredient]
 
-                    if len([ui_portion]) < 2:
-                        # e.g. portion "420" and no weight parameter -> extend(portion) -> ["eggs", "4", "2", "0"]
-                        res_ingredients.extend([ui_portion])
-                    else:  # if portion "eggs", "42", "ml"
-                        res_ingredients.extend(ui_portion)
+                    if isinstance(ui_quantities, str):  # e.g. ui_quantities: ["42"] --> str | no weight parameter/unit
+                        res_ingredients.extend([ui_quantities])
+                        print("{}, {} added to recipe".format(ui_ingredient, ui_quantities))
+                    else:   # e.g. ui_quantities: ["1500", "ml"] --> list
+                        res_ingredients.extend(ui_quantities)
+                        print("{}, {} {} added to recipe".format(ui_ingredient, ui_quantities[0], ui_quantities[1]))
 
                     self.ingredients.append(res_ingredients)
-
-                    if len(ui_portion) < 2:
-                        print("{}, {} added to recipe".format(ui_ingredient, ui_portion))
-                    else:
-                        print("{}, {}, {} added to recipe".format(ui_ingredient, ui_portion[0], ui_portion[1]))
 
             else:  # [N]
                 add_ingredient = False
@@ -156,6 +152,7 @@ class Recipe:
         print("Instructions: {}".format(self.instructions))
 
     def print_recipe_list(self):
+        # TODO
         """ Print all recipes stored in .txt file """
         pass
 
