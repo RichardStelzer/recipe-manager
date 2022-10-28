@@ -37,5 +37,27 @@
       ]
     ],
     "instructions": "Mix mix mix ..."
+  },
+  {
+    "name": "Testkuchen",
+    "category": "Kuchen",
+    "portions": 4,
+    "ingredients": [
+      [
+        "eggs",
+        "13"
+      ],
+      [
+        "flour",
+        "500",
+        "g"
+      ],
+      [
+        "water",
+        "1500",
+        "ml"
+      ]
+    ],
+    "instructions": "Hier stehen die Schritte, die man beachten sollte, wenn man den Kuchen backt. :D Jetzt laber ich noch bissle, um den Linienumbruch zu testen. Wie siehts aus. Wird nach 50 Zeichen eine neue Linie angefangen. Oder war das ganze nicht erfolgreich. Weiß ich dann hoffentlich in 1 Minute. Dankeschön fürs lesen. Bis zum nächsten Codetest. Tschau."
   }
 ]
