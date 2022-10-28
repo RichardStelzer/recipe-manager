@@ -125,7 +125,7 @@ class Recipe:
 
         while add_instructions:
             ui_instruction = input("Input instructions")
-            if ui_instruction:  # TODO
+            if ui_instruction:
                 self.instructions = ui_instruction
                 add_instructions = False
 
@@ -173,8 +173,7 @@ class Recipe:
             instructions += char
 
         print("\n{}".format(instructions))
-
-        print()
+        print("------------")
 
     def print_recipe_list(self):
         # TODO
@@ -188,19 +187,25 @@ class Recipe:
         else:
             print("Recipe with name {} not found".format(self.name))
 
-    def delete(self):
-        """Delete specified recipe from text file """
+    def delete_recipe(self):
+        """Delete current recipe from text file """
         while True:
-            user_input = input("Confirm [Y|N]")
+            user_input = input("Type \"{}\" to delete this recipe.".format(self.name))
 
-            if user_input.lower() == "y":
+            if user_input == self.name:
                 # Delete entry
-                # TODO
-                pass
+                self.recipes = [i for i in self.recipes if not (i["name"] == self.name)]
+
+                # Identical :D
+                # for idx, recipe in enumerate(self.recipes):
+                #     if recipe["name"] == self.name:
+                #         del self.recipes[idx]
+                #         break
+                self.update()
+                break
             else:
                 print("Aborted deletion.")
                 break
-        pass
 
     def update(self):
         print("Updating textfile ...")
