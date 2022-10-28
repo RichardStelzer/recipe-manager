@@ -1,0 +1,67 @@
+[
+  {
+    "name": "Marmorkuchen",
+    "portions": 1,
+    "category": "Kuchen",
+    "ingredients": [
+      [
+        "Mehl",
+        500,
+        "g"
+      ],
+      [
+        "Eier",
+        4
+      ]
+    ],
+    "instructions": "Alles zusammen ruehren ..."
+  },
+  {
+    "name": "Pfannkuchen",
+    "portions": 4,
+    "category": "Suesspeisse",
+    "ingredients": [
+      [
+        "Eier",
+        4
+      ],
+      [
+        "Mehl",
+        150,
+        "g"
+      ],
+      [
+        "Milch",
+        100,
+        "ml"
+      ]
+    ],
+    "instructions": "Mix mix mix ..."
+  },
+  {
+    "name": "Testkuchen",
+    "category": "Kuchen",
+    "portions": 4,
+    "ingredients": [
+      [
+        "flour",
+        [
+          "430",
+          "g"
+        ]
+      ],
+      [
+        "water",
+        [
+          "1500",
+          "ml"
+        ]
+      ],
+      [
+        "eggs",
+        "444"
+      ]
+    ],
+    "instructions": "Los gehts testanweisungen"
+  }
+]
