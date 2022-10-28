@@ -37,31 +37,5 @@
       ]
     ],
     "instructions": "Mix mix mix ..."
-  },
-  {
-    "name": "Testkuchen",
-    "category": "Kuchen",
-    "portions": 4,
-    "ingredients": [
-      [
-        "flour",
-        [
-          "430",
-          "g"
-        ]
-      ],
-      [
-        "water",
-        [
-          "1500",
-          "ml"
-        ]
-      ],
-      [
-        "eggs",
-        "444"
-      ]
-    ],
-    "instructions": "Los gehts testanweisungen"
   }
 ]
