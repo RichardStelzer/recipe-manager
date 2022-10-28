@@ -48,16 +48,7 @@ class Recipe:
             self.add_new_recipe()
 
     def add_new_recipe(self):
-        """ Add new recipe to recipe collection stored in textfile
-
-        data = {
-            name: "Pfannkuchen",
-            base_portions: 4,
-            category: "Suesspeisse",
-            ingredients: [ ("Eier", 4), ("Mehl", 150, "g"), ("Milch", 100, "ml") ],
-            instructions: "Ruehr alles zusammen und brate alles in der Pfanne ordentlich an :D"
-            }
-        """
+        """ Add new recipe to recipe collection stored in textfile """
         print("Recipe with name \"{}\" not found in recipe collection".format(self.name))
         print("Adding new recipe ...")
 
@@ -173,12 +164,32 @@ class Recipe:
             instructions += char
 
         print("\n{}".format(instructions))
-        print("------------")
 
     def print_recipe_list(self):
-        # TODO
         """ Print all recipes stored in .txt file """
-        pass
+        print("------------\nPrinting complete recipe collection...")
+        # TODO Kehrwoche, bissle unschönnnnnnn. Vllt static method für print_recipe()
+        name = self.name
+        category = self.category
+        portions = self.portions
+        ingredients = self.ingredients
+        instructions = self.instructions
+
+        for recipe in self.recipes:
+
+            self.name = recipe["name"]
+            self.portions = recipe["portions"]
+            self.ingredients = recipe["ingredients"]
+            self.instructions = recipe["instructions"]
+            self.category = recipe["category"]
+
+            self.print_recipe(recipe["portions"])
+
+    def list_recipes(self):
+        """ Print list of all recipes which are currently part of the collection"""
+        print("------------\nRecipes in collection:")
+        for recipe in self.recipes:
+            print(recipe["name"])
 
     def get_recipe(self):
         if self.name in self.recipes:
@@ -222,6 +233,10 @@ if __name__ == '__main__':
     # Output should be the needed ingredients for specified portion count
 
     Testkuchen = Recipe("Testkuchen", 8)
+
+    print("\n\n")
+    Testkuchen.list_recipes()
+    Testkuchen.print_recipe_list()
 
     Marmorkuchen = Recipe("Marmorkuchen", 1)
 
