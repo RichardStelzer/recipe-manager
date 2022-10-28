@@ -6,13 +6,6 @@ import json
 
 
 class Recipe:
-    name = ""
-    portions = int()
-    category = ""
-    ingredients = []
-    instructions = ""
-    recipes = {}
-    recipe_file = "recipes.txt"
 
     def __init__(self, name, target_portions):
         """
@@ -20,6 +13,7 @@ class Recipe:
         """
 
         self.name = name
+        self.recipe_file = "recipes.txt"
 
         print("\n---------------Recipe Manager------------------")
         print("Loading stored recipes from file \"{}\"...".format(self.recipe_file))
@@ -34,9 +28,9 @@ class Recipe:
 
                 self.portions = int(recipe["portions"])
                 self.category = recipe["category"]
-                for ingredient in recipe["ingredients"]:
-                    if ingredient[1].isnumeric():
-                        ingredient[1] = float(ingredient[1])
+                # for ingredient in recipe["ingredients"]:
+                #     if ingredient[1].isnumeric():
+                #         ingredient[1] = float(ingredient[1])
                 self.ingredients = recipe["ingredients"]
                 self.instructions = recipe["instructions"]
                 self.print_recipe(target_portions)
@@ -139,7 +133,7 @@ class Recipe:
 
         multiplier = target_portions / self.portions
         for ingredient in self.ingredients:
-            calculated_quantity = ingredient[1] * multiplier
+            calculated_quantity = float(ingredient[1]) * multiplier
 
             if calculated_quantity.is_integer():
                 calculated_quantity = str(int(calculated_quantity))
@@ -191,13 +185,6 @@ class Recipe:
         for recipe in self.recipes:
             print(recipe["name"])
 
-    def get_recipe(self):
-        if self.name in self.recipes:
-            # TODO
-            pass
-        else:
-            print("Recipe with name {} not found".format(self.name))
-
     def delete_recipe(self):
         """Delete current recipe from text file """
         while True:
@@ -224,6 +211,33 @@ class Recipe:
             json.dump(self.recipes, f, indent=2)
         print("Updated file stored as \"{}\" in project folder.".format(self.recipe_file))
 
+    def add_ingredients(self, ingredients):
+        # Add multiple ingredients
+        # ingredients = {list}[["flour", "400", "g"],["eggs", 14]]
+        # MKuchen = Recipe("Marmor") -> Kuchen.add_ingredients([["flour", 400, "g"], ["eggs", 14]])
+
+        # Validate params
+        error_msg = "Format mismatch. Try like Recipe.add_ingredients([[\"flour\", \"14\", \"g\"],[\"eggs\",\"5\"]])"
+        for ingredient in ingredients:
+            if len(ingredient) > 3 or len(ingredient) < 2:
+                return error_msg
+            if ingredient[1].isnumeric():
+                ingredient[1] = str(ingredient[1])
+            else:
+                return error_msg
+
+            self.ingredients.append(ingredient)
+
+    def update_recipe(self):
+        # Update recipes list by adding current recipe values to it. Then update the textfile.
+        for recipe in self.recipes:
+            if recipe["name"] == self.name:
+                recipe["portions"] = self.portions
+                recipe["instructions"] = self.instructions
+                recipe["ingredients"] = self.ingredients
+                recipe["category"] = self.category
+        self.update()
+
     def __str__(self):
         return "Current Recipe is \"{name}\" ".format(name=self.name)
 
@@ -238,13 +252,8 @@ if __name__ == '__main__':
     Testkuchen.list_recipes()
     Testkuchen.print_recipe_list()
 
-    Marmorkuchen = Recipe("Marmorkuchen", 1)
-
-    Marmorkuchen.add_recipe({"category": "Kuchen",
-                             "ingredient": [("Mehl", 500, "g"), ("Eier", 4)],
-                             "instructions": "Immer fleißig rühren, dann wirds was und bei 200°C in den Ofen  Yippi Ya Yay :D"})
+    Marmorkuchen = Recipe("Marmorkuchen", 4)
+    Marmorkuchen.add_ingredients([["test_zutat", "14", "kg"], ["weitere_zutat", "15"]])
+    Marmorkuchen.update_recipe()
 
     Marmorkuchen.print_recipe()
-    Marmorkuchen.print_recipe_list()
-    Marmorkuchen.delete()
-    Marmorkuchen.update()
