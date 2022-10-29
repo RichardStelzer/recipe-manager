@@ -10,7 +10,7 @@ Recipe manager. Calculate ingredient quantities for custom portions. Add new rec
   - ```list_recipes()```: List names of recipes currently stored in collection.
   - ```print_recipe_list()```: Print every recipe in collection for the base portion.
   - ```delete()```: Delete recipe from collection.
-  - ```add_new_recipe()```: Starts the process of adding a new recipe to the collection. Called automatically if the instance is not part of the collection. 
+  - ```add_new_recipe()```: Starts the process of adding a new recipe to the collection. Called automatically if the recipe of the instance is not part of the collection. 
   - ```add_ingredients()```: Add ingredients to the current recipe.
   - ```update_recipe()```: Update text file with parameters of current recipe object    
     
