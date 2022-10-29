@@ -63,45 +63,49 @@ class Recipe:
 
         # Add ingredients
         add_ingredient = True
+        self.ingredients = []
 
         while add_ingredient:
             ui_ingredient_question = input("Add ingredient [\"Y|N\"]?")  # "ui" == user input
 
             if ui_ingredient_question.lower() == "y":
                 ui_ingredient = input("Specify ingredient (e.g. \"flour\"):")
+                ui_ingredient = ui_ingredient.strip()
 
                 if not ui_ingredient.isalpha():
-                    print("Input not viable, please use only alphabet letters (a-z).")
-                    continue
+                    for char in ui_ingredient:
+                        if not char.isalpha() and char != " ":
+                            print("Input not viable, please use only alphabet letters (a-z) or space ( ).")
+                            break
+
+                ui_quantities = input("Specify quantity. Separated by comma if unit is used e.g. \"400,g\" or \"4\"")
+
+                if "," in ui_quantities:
+                    ui_quantities = [x.strip() for x in ui_quantities.split(",")]
+
+                    if len(ui_quantities) > 2:
+                        print("Only 2 comma separated values allowed. Please try again.")
+                        continue
+                    if not (ui_quantities[0].isnumeric() and ui_quantities[1].isalpha()):
+                        print("Input not viable, please use only alphanumeric values (a-z, 0-9).")
+                        continue
                 else:
-                    ui_quantities = input("Specify quantity. Separated by comma if unit is used e.g. \"400,g\" or \"4\"")
-
-                    if "," in ui_quantities:
-                        ui_quantities = [x.strip() for x in ui_quantities.split(",")]
-
-                        if len(ui_quantities) > 2:
-                            print("Only 2 comma separated values allowed. Please try again.")
-                            continue
-                        if not (ui_quantities[0].isnumeric() and ui_quantities[1].isalpha()):
-                            print("Input not viable, please use only alphanumeric values (a-z, 0-9).")
-                            continue
+                    if not ui_quantities.isalnum():
+                        print("Input not viable, please use only alphanumeric values (a-z, 0-9).")
+                        continue
                     else:
-                        if not ui_quantities.isalnum():
-                            print("Input not viable, please use only alphanumeric values (a-z, 0-9).")
-                            continue
-                        else:
-                            ui_quantities = ui_quantities.strip()
+                        ui_quantities = ui_quantities.strip()
 
-                    res_ingredients = [ui_ingredient]
+                res_ingredients = [ui_ingredient]
 
-                    if isinstance(ui_quantities, str):  # e.g. ui_quantities: ["42"] --> str | no weight parameter/unit
-                        res_ingredients.extend([ui_quantities])
-                        print("{}, {} added to recipe".format(ui_ingredient, ui_quantities))
-                    else:   # e.g. ui_quantities: ["1500", "ml"] --> list
-                        res_ingredients.extend(ui_quantities)
-                        print("{}, {} {} added to recipe".format(ui_ingredient, ui_quantities[0], ui_quantities[1]))
+                if isinstance(ui_quantities, str):  # e.g. ui_quantities: ["42"] --> str | no weight parameter/unit
+                    res_ingredients.extend([ui_quantities])
+                    print("{}, {} added to recipe".format(ui_ingredient, ui_quantities))
+                else:   # e.g. ui_quantities: ["1500", "ml"] --> list
+                    res_ingredients.extend(ui_quantities)
+                    print("{}, {} {} added to recipe".format(ui_ingredient, ui_quantities[0], ui_quantities[1]))
 
-                    self.ingredients.append(res_ingredients)
+                self.ingredients.append(res_ingredients)
 
             else:  # [N]
                 add_ingredient = False
@@ -249,5 +253,7 @@ if __name__ == '__main__':
     Marmorkuchen = Recipe("Marmorkuchen", 4)
     Marmorkuchen.add_ingredients([["test_zutat", "14", "kg"], ["weitere_zutat", "15"]])
     # Marmorkuchen.update_recipe()
+
+    Pancake = Recipe("Pancake", 5)
 
     Marmorkuchen.print_recipe(10)
