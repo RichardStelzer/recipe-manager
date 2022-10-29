@@ -33,17 +33,18 @@ class Recipe:
                 #         ingredient[1] = float(ingredient[1])
                 self.ingredients = recipe["ingredients"]
                 self.instructions = recipe["instructions"]
-                self.print_recipe(target_portions)
+
+                self.print_recipe(target_portions=target_portions)
                 exists = True
                 break
 
         if not exists:
+            print("Recipe with name \"{}\" not found in recipe collection".format(self.name))
             self.portions = target_portions
             self.add_new_recipe()
 
     def add_new_recipe(self):
         """ Add new recipe to recipe collection stored in textfile """
-        print("Recipe with name \"{}\" not found in recipe collection".format(self.name))
         print("Adding new recipe ...")
 
         name = self.name
@@ -60,7 +61,7 @@ class Recipe:
                 self.category = ui_category
                 break
 
-        # Add for ingredients
+        # Add ingredients
         add_ingredient = True
 
         while add_ingredient:
@@ -125,14 +126,23 @@ class Recipe:
 
         self.update()
 
-    def print_recipe(self, target_portions):
+    def print_recipe(self, target_portions=None, recipe=None):
         """ Print recipe for specified portions """
 
-        print("------------")
-        print("Recipe: {} for {} portions".format(self.name, target_portions))
+        if recipe is None:
+            recipe = {"name": self.name, "portions": self.portions,
+                      "ingredients": self.ingredients, "instructions": self.instructions}
 
-        multiplier = target_portions / self.portions
-        for ingredient in self.ingredients:
+        if target_portions is None:
+            recipe["target_portions"] = recipe["portions"]
+        else:
+            recipe["target_portions"] = target_portions
+
+        print("------------")
+        print("Recipe: {} for {} portions".format(recipe["name"], recipe["target_portions"]))
+
+        multiplier = recipe["target_portions"] / recipe["portions"]
+        for ingredient in recipe["ingredients"]:
             calculated_quantity = float(ingredient[1]) * multiplier
 
             if calculated_quantity.is_integer():
@@ -146,38 +156,24 @@ class Recipe:
                 print("- {}: {}".format(ingredient[0], calculated_quantity))
 
         # Print instructions with ~50 chars per line, so it looks pretty
-        instructions = ""
+        instructions_new = ""
         add_new_line = False
-        for count, char in enumerate(self.instructions):
+        for count, char in enumerate(recipe["instructions"]):
             if (count / 50).is_integer() and count > 0:
                 add_new_line = True
             if add_new_line and char == " ":
-                instructions += "\n"
+                instructions_new += "\n"
                 add_new_line = False
                 continue
-            instructions += char
+            instructions_new += char
 
-        print("\n{}".format(instructions))
+        print("\n{}".format(instructions_new))
 
     def print_recipe_list(self):
         """ Print all recipes stored in .txt file """
         print("------------\nPrinting complete recipe collection...")
-        # TODO Kehrwoche, bissle unschönnnnnnn. Vllt static method für print_recipe()
-        name = self.name
-        category = self.category
-        portions = self.portions
-        ingredients = self.ingredients
-        instructions = self.instructions
-
         for recipe in self.recipes:
-
-            self.name = recipe["name"]
-            self.portions = recipe["portions"]
-            self.ingredients = recipe["ingredients"]
-            self.instructions = recipe["instructions"]
-            self.category = recipe["category"]
-
-            self.print_recipe(recipe["portions"])
+            self.print_recipe(recipe=recipe)
 
     def list_recipes(self):
         """ Print list of all recipes which are currently part of the collection"""
@@ -243,17 +239,15 @@ class Recipe:
 
 
 if __name__ == '__main__':
-    # Pfannkuchen = Recipe("Pfannkuchen", 4)
     # Output should be the needed ingredients for specified portion count
 
     Testkuchen = Recipe("Testkuchen", 8)
 
-    print("\n\n")
     Testkuchen.list_recipes()
     Testkuchen.print_recipe_list()
 
     Marmorkuchen = Recipe("Marmorkuchen", 4)
     Marmorkuchen.add_ingredients([["test_zutat", "14", "kg"], ["weitere_zutat", "15"]])
-    Marmorkuchen.update_recipe()
+    # Marmorkuchen.update_recipe()
 
-    Marmorkuchen.print_recipe()
+    Marmorkuchen.print_recipe(10)
