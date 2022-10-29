@@ -18,7 +18,9 @@ Recipe manager. Calculate ingredient quantities for custom portions. Add new rec
   ```
   Pancake = Recipe("Pancake", 5) # Create instance and follow steps
   ```
-  ![til](./assets/gif/code_example_add_recipe.gif)
+  <p align="center">
+  <img src="./assets/gif/code_example_add_recipe.gif" alt="animated" />
+  </p>
   
   Use newly added recipe and calculate/print quantities for ingredients:
   
